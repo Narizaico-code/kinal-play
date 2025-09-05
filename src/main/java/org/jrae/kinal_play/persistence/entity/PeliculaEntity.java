@@ -1,7 +1,7 @@
 package org.jrae.kinal_play.persistence.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,6 +9,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Peliculas")
 @Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@ToString
+//@EqualsAndHashCode
 public class PeliculaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
