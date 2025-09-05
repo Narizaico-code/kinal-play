@@ -18,4 +18,9 @@ public class PeliculaService {
         return this.peliculaRepository.obtenerTodo();
     }
 
+    // 2 Continua con el servicio
+    public PeliculaDto obtenerPeliculaPorCodigo(Long codigo){
+        return this.peliculaRepository.obtenerPeliculaPorCodigo(codigo);
+    }
+
 }

@@ -26,4 +26,9 @@ public class PeliculaEntityRepository implements PeliculaRepository {
     public List<PeliculaDto> obtenerTodo() {
         return this.peliculaMapper.toDto(this.crudPelicula.findAll());
     }
+
+    @Override
+    public PeliculaDto obtenerPeliculaPorCodigo(Long codigo) {
+        return this.peliculaMapper.toDto(this.crudPelicula.findById(codigo).orElse(null));
+    }
 }
