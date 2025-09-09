@@ -1,5 +1,6 @@
 package org.jrae.kinal_play.dominio.service;
 
+import org.jrae.kinal_play.dominio.dto.ModPeliculaDto;
 import org.jrae.kinal_play.dominio.dto.PeliculaDto;
 import org.jrae.kinal_play.dominio.repository.PeliculaRepository;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,11 @@ public class PeliculaService {
         return this.peliculaRepository.obtenerPeliculaPorCodigo(codigo);
     }
 
+    public PeliculaDto guardarPelicula(PeliculaDto peliculaDto){
+        return this.peliculaRepository.guardarPelicula(peliculaDto);
+    }
+
+    public PeliculaDto modificarPelicula(Long codigo, ModPeliculaDto modPeliculaDto){
+        return this.peliculaRepository.modificarPelicula(codigo, modPeliculaDto);
+    }
 }

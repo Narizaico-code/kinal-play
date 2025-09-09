@@ -1,5 +1,6 @@
 package org.jrae.kinal_play.dominio.repository;
 
+import org.jrae.kinal_play.dominio.dto.ModPeliculaDto;
 import org.jrae.kinal_play.dominio.dto.PeliculaDto;
 
 import java.util.List;
@@ -9,4 +10,6 @@ public interface PeliculaRepository {
     // 1 Inicio
     List<PeliculaDto> obtenerTodo();
     PeliculaDto obtenerPeliculaPorCodigo(Long codigo);
+    PeliculaDto guardarPelicula(PeliculaDto peliculaDto);
+    PeliculaDto modificarPelicula(Long codigo, ModPeliculaDto modPeliculaDto);
 }
