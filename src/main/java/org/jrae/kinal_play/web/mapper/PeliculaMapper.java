@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel="spring", uses = {GenreMapper.class})
-public interface PeliculaMapper {
+public interface PeliculaMapper { // Probando commit en IntelliJ
 
     @Mapping(source = "nombre", target = "name")
     @Mapping(source = "duracion", target = "duration" )
