@@ -31,4 +31,8 @@ public class PeliculaService {
     public PeliculaDto modificarPelicula(Long codigo, ModPeliculaDto modPeliculaDto){
         return this.peliculaRepository.modificarPelicula(codigo, modPeliculaDto);
     }
+
+    public PeliculaDto eliminarPelicula(Long codigo){
+        return this.peliculaRepository.eliminarPelicula(codigo);
+    }
 }

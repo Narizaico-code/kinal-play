@@ -54,13 +54,23 @@ public class PeliculaEntityRepository implements PeliculaRepository {
     public PeliculaDto modificarPelicula(Long codigo, ModPeliculaDto modPeliculaDto) {
         // Primero obtenemos PeliculaEntity con el codigo
         PeliculaEntity pelicula = this.crudPelicula.findById(codigo).orElse(null);
-        // Modificar atributos en ella con datos del mod
-        pelicula.setNombre(modPeliculaDto.name());
-        pelicula.setFechaEstreno(modPeliculaDto.releaseDate());
-        pelicula.setCalificacion(BigDecimal.valueOf(modPeliculaDto.rating()));
-        // Guardamos en la DB
-        this.crudPelicula.save(pelicula);
-        // Retornamos el PeliculaDto convertido de la entidad
-        return this.peliculaMapper.toDto(pelicula);
+//        // Modificar atributos en ella con datos del mod
+//        pelicula.setNombre(modPeliculaDto.name());
+//        pelicula.setFechaEstreno(modPeliculaDto.releaseDate());
+//        pelicula.setCalificacion(BigDecimal.valueOf(modPeliculaDto.rating()));
+//        // Guardamos en la DB
+//        this.crudPelicula.save(pelicula);
+//        // Retornamos el PeliculaDto convertido de la entidad
+//        return this.peliculaMapper.toDto(pelicula);
+        this.peliculaMapper.modificarEntityFromDto(modPeliculaDto, pelicula);
+        return this.peliculaMapper.toDto(this.crudPelicula.save(pelicula));
+    }
+    @Override
+    public PeliculaDto eliminarPelicula(Long codigo){
+        PeliculaEntity peliculaEntity = new PeliculaEntity();
+        peliculaEntity = this.crudPelicula.findById(codigo).orElse(null);
+        if (peliculaEntity == null) return null;
+        this.crudPelicula.delete(peliculaEntity);
+        return this.peliculaMapper.toDto(peliculaEntity);
     }
 }

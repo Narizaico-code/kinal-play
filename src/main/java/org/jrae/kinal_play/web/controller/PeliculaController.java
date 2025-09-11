@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/peliculas/v1")
+@RequestMapping("/v1/peliculas")
 public class PeliculaController {
     private final PeliculaService peliculaService;
 
@@ -43,12 +43,15 @@ public class PeliculaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.peliculaService.guardarPelicula(peliculaDto));
     }
     // modificar pelicula
-    @PutMapping
-    public ResponseEntity<PeliculaDto> modificarPelicula(@PathVariable Long id, @RequestBody ModPeliculaDto peliculaDto){
-        return ResponseEntity.ok().build();
+    @PutMapping("{codigo}")
+    public ResponseEntity<PeliculaDto> modificarPelicula(@PathVariable Long codigo, @RequestBody ModPeliculaDto modPeliculaDto){
+        return ResponseEntity.ok(this.peliculaService.modificarPelicula(codigo, modPeliculaDto));
     }
     // eliminar pelicula
-
+    @DeleteMapping("{codigo}")
+    public ResponseEntity<PeliculaDto> eliminarPelicula(@PathVariable Long codigo){
+        return ResponseEntity.ok(this.peliculaService.eliminarPelicula(codigo));
+    }
     // excepciones - PeliculaNoExisteException, PeliculaYaExisteException
 
     // Consulta a la IA
