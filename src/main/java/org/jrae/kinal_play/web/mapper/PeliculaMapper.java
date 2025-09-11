@@ -10,7 +10,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel="spring", uses = {GenreMapper.class})
+@Mapper(componentModel="spring", uses = {GenreMapper.class, EstadoMapper.class})
 public interface PeliculaMapper { // Probando commit en IntelliJ
 
     @Mapping(source = "nombre", target = "name")
@@ -18,12 +18,14 @@ public interface PeliculaMapper { // Probando commit en IntelliJ
     @Mapping(source = "genero", target = "genre", qualifiedByName = "generarGenre")
     @Mapping(source = "fechaEstreno", target = "releaseDate")
     @Mapping(source = "calificacion", target = "rating")
+    @Mapping(source = "estado", target = "state", qualifiedByName = "generarState")
     PeliculaDto toDto(PeliculaEntity entity);
     List<PeliculaDto> toDto(Iterable<PeliculaEntity> entities);
 
     // Metodo para convertir a Entity - toEntity
     @InheritInverseConfiguration
     @Mapping(source = "genre", target = "genero", qualifiedByName = "generarGenero")
+    @Mapping(source = "state" ,target = "estado" , qualifiedByName = "generarEstado")
     PeliculaEntity toEntity (PeliculaDto peliculaDto);
 
     // Auto actualizar el modPeliculaDto a PeliculaEntity

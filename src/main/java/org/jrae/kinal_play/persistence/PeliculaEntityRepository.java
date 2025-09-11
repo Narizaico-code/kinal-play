@@ -2,6 +2,8 @@ package org.jrae.kinal_play.persistence;
 
 import org.jrae.kinal_play.dominio.dto.ModPeliculaDto;
 import org.jrae.kinal_play.dominio.dto.PeliculaDto;
+import org.jrae.kinal_play.dominio.exception.PeliculaNoExisteException;
+import org.jrae.kinal_play.dominio.exception.PeliculaYaExisteException;
 import org.jrae.kinal_play.dominio.repository.PeliculaRepository;
 import org.jrae.kinal_play.persistence.crud.CrudPeliculaEntity;
 import org.jrae.kinal_play.persistence.entity.PeliculaEntity;
@@ -34,16 +36,23 @@ public class PeliculaEntityRepository implements PeliculaRepository {
 
     @Override
     public PeliculaDto obtenerPeliculaPorCodigo(Long codigo) {
-        return this.peliculaMapper.toDto(this.crudPelicula.findById(codigo).orElse(null));
+        PeliculaEntity pelicula = this.crudPelicula.findById(codigo).orElse(null);
+        if (pelicula == null) {
+            throw new PeliculaNoExisteException(codigo);
+        }else {
+            return this.peliculaMapper.toDto(pelicula);
+        }
     }
 
     @Override
     public PeliculaDto guardarPelicula(PeliculaDto peliculaDto) {
         // Instanciar clase de Entidad
-        PeliculaEntity pelicula = new PeliculaEntity();
+        if (this.crudPelicula.findFirstByNombre(peliculaDto.name()) != null){
+            throw new PeliculaYaExisteException(peliculaDto.name());
+        }
         // Convertir Dto a Entity
-        pelicula = this.peliculaMapper.toEntity(peliculaDto);
-            pelicula.setEstado("D");
+        PeliculaEntity pelicula = this.peliculaMapper.toEntity(peliculaDto);
+        pelicula.setEstado("D");
         // Guardar en la DB con JPA
         this.crudPelicula.save(pelicula);
         // Retornar el valor guardado como Dto
@@ -62,15 +71,23 @@ public class PeliculaEntityRepository implements PeliculaRepository {
 //        this.crudPelicula.save(pelicula);
 //        // Retornamos el PeliculaDto convertido de la entidad
 //        return this.peliculaMapper.toDto(pelicula);
-        this.peliculaMapper.modificarEntityFromDto(modPeliculaDto, pelicula);
-        return this.peliculaMapper.toDto(this.crudPelicula.save(pelicula));
+        if (pelicula == null){
+            throw new PeliculaNoExisteException(codigo);
+        }else {
+            this.peliculaMapper.modificarEntityFromDto(modPeliculaDto, pelicula);
+            return this.peliculaMapper.toDto(this.crudPelicula.save(pelicula));
+        }
     }
     @Override
-    public PeliculaDto eliminarPelicula(Long codigo){
-        PeliculaEntity peliculaEntity = new PeliculaEntity();
-        peliculaEntity = this.crudPelicula.findById(codigo).orElse(null);
-        if (peliculaEntity == null) return null;
-        this.crudPelicula.delete(peliculaEntity);
-        return this.peliculaMapper.toDto(peliculaEntity);
+    public void eliminarPelicula(Long codigo){
+        PeliculaEntity peliculaEntity = this.crudPelicula.findById(codigo).orElse(null);
+
+        if (peliculaEntity == null){
+            //Excepcion
+            throw new PeliculaNoExisteException(codigo);
+        }else {
+            this.crudPelicula.findById(codigo);
+        }
+
     }
 }
