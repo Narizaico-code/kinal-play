@@ -63,14 +63,6 @@ public class PeliculaEntityRepository implements PeliculaRepository {
     public PeliculaDto modificarPelicula(Long codigo, ModPeliculaDto modPeliculaDto) {
         // Primero obtenemos PeliculaEntity con el codigo
         PeliculaEntity pelicula = this.crudPelicula.findById(codigo).orElse(null);
-//        // Modificar atributos en ella con datos del mod
-//        pelicula.setNombre(modPeliculaDto.name());
-//        pelicula.setFechaEstreno(modPeliculaDto.releaseDate());
-//        pelicula.setCalificacion(BigDecimal.valueOf(modPeliculaDto.rating()));
-//        // Guardamos en la DB
-//        this.crudPelicula.save(pelicula);
-//        // Retornamos el PeliculaDto convertido de la entidad
-//        return this.peliculaMapper.toDto(pelicula);
         if (pelicula == null){
             throw new PeliculaNoExisteException(codigo);
         }else {
@@ -81,12 +73,11 @@ public class PeliculaEntityRepository implements PeliculaRepository {
     @Override
     public void eliminarPelicula(Long codigo){
         PeliculaEntity peliculaEntity = this.crudPelicula.findById(codigo).orElse(null);
-
         if (peliculaEntity == null){
             //Excepcion
             throw new PeliculaNoExisteException(codigo);
         }else {
-            this.crudPelicula.findById(codigo);
+            this.crudPelicula.deleteById(codigo);
         }
 
     }

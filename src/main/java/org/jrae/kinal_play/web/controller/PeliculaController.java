@@ -56,7 +56,7 @@ public class PeliculaController {
     // guardar pelicula
     @PostMapping
     public ResponseEntity<PeliculaDto> guardarPelicula
-        (@RequestBody PeliculaDto peliculaDto){
+        (@RequestBody @Valid PeliculaDto peliculaDto){
         // return this.peliculaService.guardarPelicula(peliculaDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.peliculaService.guardarPelicula(peliculaDto));
     }
